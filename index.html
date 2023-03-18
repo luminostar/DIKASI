@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="style.css">
+    <title>DIKASI</title>
+</head>
+<body class="bg-gradient-to-t from-white to-blue-800 bg-no-repeat">
+    <header>
+        <h1 class="text-5xl ml-36 mt-12 text-amber-400 font-semibold font-serif">DIKASI</h1>
+        <div class="flex float-right mr-36 space-x-60 text-amber-400 text-2xl mt-[-35px] cursor-pointer font-serif">
+            <a href="/Frontend/TOPIK/index.html"><p class="hover:text-yellow-600">TOPIK</p></a>
+            <p class="hover:text-yellow-600">FAQ</p>
+            <p class="hover:text-yellow-600">KONTAK</p>
+        </div>
+    </header>
+    <main class="mt-52 ml-36 mb-[380px]">
+        <h1 class="text-6xl font-sans mb-8"><span class="text-amber-400">DI</span>skusi edu<span class="text-amber-400">KASI</span></h1>
+        <button class="text-2xl font-semibold font-serif bg-yellow-300 p-3 px-10 rounded-xl" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mulai</button>
+    </main>
+
+    <div id="id01" class="modal">
+    
+    <form class="modal-content animate rounded-2xl" action="/action_page.php" method="post">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        </div>
+
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+            <div class="flex space-x-5">
+                <button class="text-2xl bg-slate-400 mt-4 mx-auto rounded-xl" id ="login"type="submit">Login</button>
+                <button class="text-2xl bg-slate-400 mt-4 mx-auto rounded-xl" id ="sign" type="submit">SignUp</button>
+                <button class="text-2xl bg-slate-400 mt-4 mx-auto rounded-xl"  id ="login-google"type="submit">Google</button>
+            </div>    
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+    </form>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD9O0TfTCy4M3EOZL3GXSnhjJlGxR546mM",
+        authDomain: "dikasi-1bd9d.firebaseapp.com",
+        databaseURL: "https://dikasi-1bd9d-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "dikasi-1bd9d",
+        storageBucket: "dikasi-1bd9d.appspot.com",
+        messagingSenderId: "496919300556",
+        appId: "1:496919300556:web:654708c898962996f2b569",
+        measurementId: "G-SQ7X1BZCHV"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    document.getElementById('login-google').addEventListener('click',function(){
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+            /** @type {firebase.auth.OAuthCredential} */
+            var credential = result.credential;
+
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            // IdP data available in result.additionalUserInfo.profile.
+            // ...
+        }).catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+            allert(errorMessage);
+        });
+    })
+    </script>
+    <script>
+    document.getElementById('sign').addEventListener('click',function(){
+
+    
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in
+            var user = userCredential.user;
+            // ...
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ..
+        });
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in
+            var user = userCredential.user;
+            // ...
+            windows.location.href="./Dashboard/index.html"
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });
+    })
+    firebase.auth().signOut().then(() => {
+        // Sign-out successful.
+        }).catch((error) => {
+        // An error happened.
+        });
+    </script>
+</body>
+</html>
